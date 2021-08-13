@@ -40,10 +40,12 @@
           block
           type="info"
           color="#6db4fb"
+          @click="onLogin"
         >登录</van-button>
         <van-button
           class="test-button"
           block
+          @click="onTest"
         >测试数据</van-button>
       </div>
     </van-form>
@@ -51,6 +53,8 @@
 </template>
 
 <script>
+import { userLogin } from '@/api/user'
+
 export default {
   name: 'LoginIndex',
   data() {
@@ -66,6 +70,20 @@ export default {
         code: [
           { required: true, message: '请填写密码' }
         ]
+      }
+    }
+  },
+  methods: {
+    onTest() {
+      this.user.mobile = '13911111111'
+      this.user.code = '246810'
+    },
+    async onLogin() {
+      try {
+        const res = await userLogin(this.user)
+        console.log(res)
+      } catch (ex) {
+        console.log(ex)
       }
     }
   }
