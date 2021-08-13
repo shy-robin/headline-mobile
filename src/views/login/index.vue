@@ -13,7 +13,7 @@
       :show-error-message="false"
       :show-error="false"
       @submit="onLogin"
-      @fail="onFail"
+      @failed="onFail"
     >
       <van-field
         class="form-mobile"
@@ -100,6 +100,12 @@ export default {
         console.log(ex)
         this.$toast.fail('登录失败！')
       }
+    },
+    onFail(error) {
+      this.$toast({
+        message: error.errors[0].message,
+        position: 'top'
+      })
     }
   }
 }
