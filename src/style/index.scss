@@ -1,2 +1,13 @@
 // 图标字体（离线）
 @import './icon.scss';
+
+// 全局样式
+body {
+  background-color: #f5f7f9;
+}
+.van-nav-bar {
+  background-color: #3296fa;
+  .van-nav-bar__arrow, .van-nav-bar__title {
+    color: #fff;
+  }
+}
