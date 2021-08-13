@@ -10,6 +10,9 @@ import 'vant/lib/index.css'
 // 使用 amfe-flexible
 import 'amfe-flexible'
 
+// 加载全局样式（注意，要在 Vant 之后加载，这样才能保证设置的样式不被 Vant 覆盖）
+import './style/index.scss'
+
 Vue.use(Vant)
 
 Vue.config.productionTip = false
