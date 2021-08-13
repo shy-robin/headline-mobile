@@ -8,7 +8,12 @@
     />
     <van-form
       class="login-form"
-      @submit="onSubmit"
+      validate-trigger="onSubmit"
+      :validate-first="true"
+      :show-error-message="false"
+      :show-error="false"
+      @submit="onLogin"
+      @fail="onFail"
     >
       <van-field
         class="form-mobile"
@@ -31,6 +36,7 @@
             size="small"
             round
             color="#ededed"
+            native-type="button"
           >获取验证码</van-button>
         </template>
       </van-field>
@@ -40,12 +46,12 @@
           block
           type="info"
           color="#6db4fb"
-          @click="onLogin"
         >登录</van-button>
         <van-button
           class="test-button"
           block
           @click="onTest"
+          native-type="button"
         >测试数据</van-button>
       </div>
     </van-form>
@@ -65,10 +71,12 @@ export default {
       },
       formRules: {
         mobile: [
-          { required: true, message: '请填写用户名' }
+          { required: true, message: '请填写手机号' },
+          { pattern: /^1[3|4|5|7|8|9]\d{9}$/, message: '手机号格式错误' }
         ],
         code: [
-          { required: true, message: '请填写密码' }
+          { required: true, message: '请填写验证码' },
+          { pattern: /^\d{6}$/, message: '验证码格式错误' }
         ]
       }
     }
@@ -80,10 +88,17 @@ export default {
     },
     async onLogin() {
       try {
+        this.$toast.loading({
+          message: '登录中...',
+          forbidClick: true,
+          duratioin: 0
+        })
         const res = await userLogin(this.user)
         console.log(res)
+        this.$toast.success('登录成功！')
       } catch (ex) {
         console.log(ex)
+        this.$toast.fail('登录失败！')
       }
     }
   }
