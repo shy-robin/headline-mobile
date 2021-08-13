@@ -1,3 +1,14 @@
-> 1%
-last 2 versions
-not dead
+# 浏览器的兼容范围
+# 会被 @babel/preset-env 和 Autoprefixer 作为参考，用来确定是否需要转译 JS 特性和添加 CSS 浏览器前缀
+
+# 兼容到超过百分之一的用户使用的浏览器
+# > 1%
+
+# 兼容到最后的两个版本
+# last 2 versions
+
+# not dead
+
+# 兼容移动端
+Android >= 4.0
+iOS >= 8
