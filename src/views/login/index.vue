@@ -112,7 +112,7 @@ export default {
         })
         const res = await userLogin(this.user)
         // 存储 token
-        this.setUser(res.data.data)
+        this.setToken(res.data.data)
         this.$toast.success('登录成功！')
       } catch (ex) {
         console.log(ex)
@@ -159,7 +159,7 @@ export default {
         this.isSendSmsLoading = false
       }
     },
-    ...mapMutations('UserMod', ['setUser'])
+    ...mapMutations('UserMod', ['setToken'])
   }
 }
 </script>
