@@ -34,13 +34,23 @@
         center
       >
         <template #button>
+          <van-count-down
+            v-if="isShowCountdown"
+            :time="1000 * 60"
+            format="ss s"
+            @finish="isShowCountdown = false"
+          />
           <van-button
+            v-else
             class="code-button"
-            size="small"
-            round
+            size="mini"
             color="#ededed"
+            block
+            round
             native-type="button"
             @click="onSendSms"
+            :loading="isSendSmsLoading"
+            loading-text="发送中"
           >获取验证码</van-button>
         </template>
       </van-field>
@@ -82,7 +92,9 @@ export default {
           { required: true, message: '请填写验证码' },
           { pattern: /^\d{6}$/, message: '验证码格式错误' }
         ]
-      }
+      },
+      isSendSmsLoading: false,
+      isShowCountdown: false
     }
   },
   methods: {
@@ -112,12 +124,15 @@ export default {
       })
     },
     async onSendSms() {
+      this.isSendSmsLoading = true
       try {
         // 1. 校验手机号表单项
         await this.$refs.loginForm.validate('mobile')
         // 2. 发送短信请求
         const res = await getSmsCode(this.user.mobile)
         console.log(res)
+        this.isSendSmsLoading = false
+        this.isShowCountdown = true
       } catch (ex) {
         // 3. 处理错误请求
         let message
@@ -139,6 +154,7 @@ export default {
           message,
           position: 'top'
         })
+        this.isSendSmsLoading = false
       }
     }
   }
