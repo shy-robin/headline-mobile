@@ -59,5 +59,13 @@ export default {
       max-width: none;
     }
   }
+  ::v-deep .van-tabs__content {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 93px;
+    bottom: 50px;
+    overflow: auto;
+  }
 }
 </style>
