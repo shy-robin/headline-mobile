@@ -71,17 +71,33 @@
       <van-cell title="消息通知" is-link />
       <van-cell title="小智同学" is-link />
     </van-cell-group>
-    <van-cell v-if="token" class="logout" title="退出登录" />
+    <van-cell
+      v-if="token"
+      class="logout"
+      title="退出登录"
+      @click="onLogout"
+    />
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'ProfileIndex',
   computed: {
     ...mapState('UserMod', ['token'])
+  },
+  methods: {
+    async onLogout() {
+      await this.$dialog.confirm({
+        title: '提示',
+        message: '确认退出登录吗？'
+      })
+      // 确定退出，清除 token
+      this.setToken(null)
+    },
+    ...mapMutations('UserMod', ['setToken'])
   }
 }
 </script>
