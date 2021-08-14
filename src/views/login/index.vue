@@ -29,6 +29,7 @@
         :rules="formRules.code"
         left-icon="mima"
         icon-prefix="iconfont"
+        center
       >
         <template #button>
           <van-button
