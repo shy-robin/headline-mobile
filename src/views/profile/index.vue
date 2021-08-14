@@ -8,9 +8,9 @@
               class="avatar"
               fit="cover"
               round
-              src="https://img01.yzcdn.cn/vant/cat.jpeg"
+              :src="userInfo.photo"
             />
-            <span class="name">头条号</span>
+            <span class="name">{{ userInfo.name }}</span>
           </div>
           <div class="right">
             <van-button class="edit-button" round>编辑资料</van-button>
@@ -19,25 +19,25 @@
         <van-grid class="statistic" :border="false">
           <van-grid-item>
             <div slot="text" class="wrapper">
-              <span class="count">2</span>
+              <span class="count">{{ userInfo.art_count }}</span>
               <span class="label">头条</span>
             </div>
           </van-grid-item>
           <van-grid-item>
             <div slot="text" class="wrapper">
-              <span class="count">33</span>
+              <span class="count">{{ userInfo.follow_count }}</span>
               <span class="label">关注</span>
             </div>
           </van-grid-item>
           <van-grid-item>
             <div slot="text" class="wrapper">
-              <span class="count">22</span>
+              <span class="count">{{ userInfo.fans_count }}</span>
               <span class="label">粉丝</span>
             </div>
           </van-grid-item>
           <van-grid-item>
             <div slot="text" class="wrapper">
-              <span class="count">11</span>
+              <span class="count">{{ userInfo.like_count }}</span>
               <span class="label">获赞</span>
             </div>
           </van-grid-item>
@@ -82,11 +82,20 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import { getCurrentUser } from '@/api/user'
 
 export default {
   name: 'ProfileIndex',
+  data() {
+    return {
+      userInfo: {}
+    }
+  },
   computed: {
     ...mapState('UserMod', ['token'])
+  },
+  created() {
+    this.loadCurrentUser()
   },
   methods: {
     async onLogout() {
@@ -96,6 +105,10 @@ export default {
       })
       // 确定退出，清除 token
       this.setToken(null)
+    },
+    async loadCurrentUser() {
+      const res = await getCurrentUser()
+      this.userInfo = res.data.data
     },
     ...mapMutations('UserMod', ['setToken'])
   }
