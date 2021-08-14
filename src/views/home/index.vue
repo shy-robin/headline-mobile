@@ -14,7 +14,7 @@
       <van-tab
         v-for="item in channels" :key="item.id"
         :title="item.name">
-        内容 {{ item.name }}
+        <article-list></article-list>
       </van-tab>
     </van-tabs>
   </div>
@@ -22,6 +22,7 @@
 
 <script>
 import { getUserChannels } from '@/api/user'
+import ArticleList from './components/ArticleList.vue'
 
 export default {
   name: 'HomeIndex',
@@ -38,6 +39,9 @@ export default {
       const res = await getUserChannels()
       this.channels = res.data.data.channels
     }
+  },
+  components: {
+    ArticleList
   }
 }
 </script>
