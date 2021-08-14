@@ -14,7 +14,7 @@
       <van-tab
         v-for="item in channels" :key="item.id"
         :title="item.name">
-        <article-list></article-list>
+        <article-list :id="item.id"></article-list>
       </van-tab>
     </van-tabs>
   </div>
