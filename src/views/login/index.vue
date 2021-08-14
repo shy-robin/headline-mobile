@@ -29,7 +29,7 @@
         v-model="user.code"
         placeholder="请输入验证码"
         :rules="formRules.code"
-        left-icon="mima"
+        left-icon="yanzhengma"
         icon-prefix="iconfont"
         center
       >

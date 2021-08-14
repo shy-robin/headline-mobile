@@ -56,13 +56,13 @@
     >
       <van-grid-item to="" class="item">
         <div slot="icon" class="collect">
-          <van-icon name="home-o"></van-icon>
+          <i class="iconfont iconfont-shoucang"></i>
           <span>收 藏</span>
         </div>
       </van-grid-item>
       <van-grid-item to="" class="item">
         <div slot="icon" class="history">
-          <van-icon name="search"></van-icon>
+          <i class="iconfont iconfont-lishi"></i>
           <span>历 史</span>
         </div>
       </van-grid-item>
@@ -193,21 +193,22 @@ export default {
         flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
+        text-align: center;
+        .iconfont {
+          width: 22px;
+          height: 22px;
+        }
+        .iconfont-shoucang {
+          color: #eb5253;
+        }
+        .iconfont-lishi {
+          color: #ff9d1d;
+        }
         span {
           font-size: 14px;
           color: #333;
         }
       }
-    }
-    .van-icon {
-      width: 22px;
-      height: 22px;
-    }
-    .van-icon-home-o {
-      color: #eb5253;
-    }
-    .van-icon-search {
-      color: #ff9d1d;
     }
   }
   .profile-list {
