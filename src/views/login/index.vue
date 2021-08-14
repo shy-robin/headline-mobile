@@ -74,6 +74,7 @@
 
 <script>
 import { userLogin, getSmsCode } from '@/api/user'
+import { mapMutations } from 'vuex'
 
 export default {
   name: 'LoginIndex',
@@ -110,7 +111,8 @@ export default {
           duratioin: 0
         })
         const res = await userLogin(this.user)
-        console.log(res)
+        // 存储 token
+        this.setUser(res.data.data)
         this.$toast.success('登录成功！')
       } catch (ex) {
         console.log(ex)
@@ -129,8 +131,8 @@ export default {
         // 1. 校验手机号表单项
         await this.$refs.loginForm.validate('mobile')
         // 2. 发送短信请求
-        const res = await getSmsCode(this.user.mobile)
-        console.log(res)
+        await getSmsCode(this.user.mobile)
+
         this.isSendSmsLoading = false
         this.isShowCountdown = true
       } catch (ex) {
@@ -156,7 +158,8 @@ export default {
         })
         this.isSendSmsLoading = false
       }
-    }
+    },
+    ...mapMutations('UserMod', ['setUser'])
   }
 }
 </script>
