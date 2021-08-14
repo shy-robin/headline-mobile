@@ -7,6 +7,7 @@
       :border="false"
     />
     <van-form
+      ref="loginForm"
       class="login-form"
       validate-trigger="onSubmit"
       :validate-first="true"
@@ -22,6 +23,7 @@
         :rules="formRules.mobile"
         left-icon="shouji"
         icon-prefix="iconfont"
+        name="mobile"
       />
       <van-field
         v-model="user.code"
@@ -38,6 +40,7 @@
             round
             color="#ededed"
             native-type="button"
+            @click="onSendSms"
           >获取验证码</van-button>
         </template>
       </van-field>
@@ -60,7 +63,7 @@
 </template>
 
 <script>
-import { userLogin } from '@/api/user'
+import { userLogin, getSmsCode } from '@/api/user'
 
 export default {
   name: 'LoginIndex',
@@ -107,6 +110,36 @@ export default {
         message: error.errors[0].message,
         position: 'top'
       })
+    },
+    async onSendSms() {
+      try {
+        // 1. 校验手机号表单项
+        await this.$refs.loginForm.validate('mobile')
+        // 2. 发送短信请求
+        const res = await getSmsCode(this.user.mobile)
+        console.log(res)
+      } catch (ex) {
+        // 3. 处理错误请求
+        let message
+        if (ex.response) {
+          if (ex.response.status === 429) {
+            message = '发送太频繁了，请稍后重试'
+          } else if (ex.response.status === 404) {
+            message = '手机号不正确'
+          } else if (ex.response.status === 507) {
+            message = '服务器数据库异常'
+          }
+        } else if (ex.name === 'mobile') {
+          message = ex.message
+        } else {
+          // 未知错误
+          message = '发送失败，请稍后重试'
+        }
+        this.$toast({
+          message,
+          position: 'top'
+        })
+      }
     }
   }
 }

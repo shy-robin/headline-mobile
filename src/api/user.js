@@ -8,6 +8,14 @@ const userLogin = data => {
   })
 }
 
+const getSmsCode = mobile => {
+  return request({
+    method: 'GET',
+    url: `/app/v1_0/sms/codes/${mobile}`
+  })
+}
+
 export {
-  userLogin
+  userLogin,
+  getSmsCode
 }
