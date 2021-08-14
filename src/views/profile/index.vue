@@ -1,46 +1,52 @@
 <template>
   <div class="profile-container">
     <van-cell-group class="profile-header">
-      <van-cell class="info" :border="false" center>
-        <div slot="title" class="left">
-          <van-image
-            class="avatar"
-            fit="cover"
-            round
-            src="https://img01.yzcdn.cn/vant/cat.jpeg"
-          />
-          <span class="name">头条号</span>
-        </div>
-        <div class="right">
-          <van-button class="edit-button" round>编辑资料</van-button>
-        </div>
-      </van-cell>
-      <van-grid class="statistic" :border="false">
-        <van-grid-item>
-          <div slot="text" class="wrapper">
-            <span class="count">2</span>
-            <span class="label">头条</span>
+      <template v-if="token">
+        <van-cell class="info" :border="false" center>
+          <div slot="title" class="left">
+            <van-image
+              class="avatar"
+              fit="cover"
+              round
+              src="https://img01.yzcdn.cn/vant/cat.jpeg"
+            />
+            <span class="name">头条号</span>
           </div>
-        </van-grid-item>
-        <van-grid-item>
-          <div slot="text" class="wrapper">
-            <span class="count">33</span>
-            <span class="label">关注</span>
+          <div class="right">
+            <van-button class="edit-button" round>编辑资料</van-button>
           </div>
-        </van-grid-item>
-        <van-grid-item>
-          <div slot="text" class="wrapper">
-            <span class="count">22</span>
-            <span class="label">粉丝</span>
-          </div>
-        </van-grid-item>
-        <van-grid-item>
-          <div slot="text" class="wrapper">
-            <span class="count">11</span>
-            <span class="label">获赞</span>
-          </div>
-        </van-grid-item>
-      </van-grid>
+        </van-cell>
+        <van-grid class="statistic" :border="false">
+          <van-grid-item>
+            <div slot="text" class="wrapper">
+              <span class="count">2</span>
+              <span class="label">头条</span>
+            </div>
+          </van-grid-item>
+          <van-grid-item>
+            <div slot="text" class="wrapper">
+              <span class="count">33</span>
+              <span class="label">关注</span>
+            </div>
+          </van-grid-item>
+          <van-grid-item>
+            <div slot="text" class="wrapper">
+              <span class="count">22</span>
+              <span class="label">粉丝</span>
+            </div>
+          </van-grid-item>
+          <van-grid-item>
+            <div slot="text" class="wrapper">
+              <span class="count">11</span>
+              <span class="label">获赞</span>
+            </div>
+          </van-grid-item>
+        </van-grid>
+      </template>
+      <div class="notlogin" v-else>
+        <img src="./notlogin.png" @click="$router.push('/login')">
+        <span>登录 / 注册</span>
+      </div>
     </van-cell-group>
     <van-grid
       class="profile-middle"
@@ -65,13 +71,18 @@
       <van-cell title="消息通知" is-link />
       <van-cell title="小智同学" is-link />
     </van-cell-group>
-    <van-cell class="logout" title="退出登录" />
+    <van-cell v-if="token" class="logout" title="退出登录" />
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
-  name: 'ProfileIndex'
+  name: 'ProfileIndex',
+  computed: {
+    ...mapState('UserMod', ['token'])
+  }
 }
 </script>
 
@@ -80,6 +91,7 @@ export default {
   .profile-header {
     background-image: url('./banner.png');
     background-size: cover;
+    height: 180px;
     .info {
       background: unset;
       height: 115px;
@@ -125,6 +137,22 @@ export default {
         .label {
           font-size: 12px;
         }
+      }
+    }
+    .notlogin {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-top: 54px;
+      img {
+        width: 66px;
+        height: 66px;
+        margin-bottom: 7px;
+      }
+      span {
+        color: #fff;
+        font-size: 14px;
       }
     }
   }

@@ -114,6 +114,8 @@ export default {
         // 存储 token
         this.setToken(res.data.data)
         this.$toast.success('登录成功！')
+        // 登录成功，跳转到上一页
+        this.$router.back() // 这种方式有 bug（待处理）
       } catch (ex) {
         console.log(ex)
         this.$toast.fail('登录失败！')
