@@ -108,7 +108,7 @@ export default {
         this.$toast.loading({
           message: '登录中...',
           forbidClick: true,
-          duratioin: 0
+          duration: 0
         })
         const res = await userLogin(this.user)
         // 存储 token
