@@ -10,12 +10,35 @@
         round
       >搜索</van-button>
     </van-nav-bar>
+    <van-tabs animated>
+      <van-tab
+        v-for="item in channels" :key="item.id"
+        :title="item.name">
+        内容 {{ item.name }}
+      </van-tab>
+    </van-tabs>
   </div>
 </template>
 
 <script>
+import { getUserChannels } from '@/api/user'
+
 export default {
-  name: 'HomeIndex'
+  name: 'HomeIndex',
+  data() {
+    return {
+      channels: []
+    }
+  },
+  created() {
+    this.loadUserChannels()
+  },
+  methods: {
+    async loadUserChannels() {
+      const res = await getUserChannels()
+      this.channels = res.data.data.channels
+    }
+  }
 }
 </script>
 
