@@ -10,7 +10,7 @@
         round
       >搜索</van-button>
     </van-nav-bar>
-    <van-tabs animated>
+    <van-tabs animated v-model="active">
       <van-tab
         v-for="item in channels" :key="item.id"
         :title="item.name">
@@ -34,7 +34,11 @@
       style="height:100%;"
       get-container="body"
     >
-      <channel-edit :channels="channels" />
+      <channel-edit
+        :channels="channels"
+        :active-tab="active"
+        @changeChannel="changeChannel"
+      />
     </van-popup>
   </div>
 </template>
@@ -49,7 +53,8 @@ export default {
   data() {
     return {
       channels: [],
-      isShowPopup: true
+      isShowPopup: true,
+      active: 0
     }
   },
   created() {
@@ -59,6 +64,10 @@ export default {
     async loadUserChannels() {
       const res = await getUserChannels()
       this.channels = res.data.data.channels
+    },
+    changeChannel(index) {
+      this.active = index
+      this.isShowPopup = false
     }
   },
   components: {

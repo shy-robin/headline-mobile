@@ -17,7 +17,7 @@
         v-for="(channel, index) in channels" :key="channel.id"
         :text="channel.name"
         center
-        :style="{color: activeChannel === index ? 'red' : null}"
+        :class="{'active': activeTab === index}"
         @click="onEdit(index)"
       >
         <div
@@ -51,13 +51,16 @@ export default {
   data() {
     return {
       allChannels: [],
-      isEdit: false,
-      activeChannel: 0
+      isEdit: false
     }
   },
   props: {
     channels: {
       type: Array,
+      required: true
+    },
+    activeTab: {
+      type: Number,
       required: true
     }
   },
@@ -77,8 +80,8 @@ export default {
         if (index) { // 不去除“推荐”频道
           this.channels.splice(index, 1)
         }
-      } else {
-        // 切换
+      } else { // 非编辑状态，点击频道跳转
+        this.$emit('changeChannel', index)
       }
     }
   },
@@ -108,6 +111,11 @@ export default {
     }
   }
   .my-channel-grid {
+    .active {
+      ::v-deep .van-grid-item__text {
+        color: red;
+      }
+    }
     ::v-deep .van-grid-item__icon-wrapper {
       position: unset;
     }
