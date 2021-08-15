@@ -16,6 +16,14 @@
         :title="item.name">
         <article-list :id="item.id"></article-list>
       </van-tab>
+      <div slot="nav-right" class="placeholder"></div>
+      <div slot="nav-right" class="nav-right">
+        <van-icon
+          class="right-icon"
+          name="gengduo"
+          class-prefix="iconfont"
+        />
+      </div>
     </van-tabs>
   </div>
 </template>
@@ -66,6 +74,23 @@ export default {
     top: 93px;
     bottom: 50px;
     overflow: auto;
+  }
+  .placeholder {
+    flex-shrink: 0;
+    flex-basis: 40px;
+  }
+  .nav-right {
+    flex-basis: 20px;
+    position: fixed;
+    height: 44px;
+    right: 0;
+    .right-icon {
+      line-height: 44px;
+      font-size: 20px;
+      background-color: #fff;
+      opacity: 0.9;
+      padding: 0 10px;
+    }
   }
 }
 </style>
