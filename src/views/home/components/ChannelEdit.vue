@@ -79,6 +79,10 @@ export default {
       if (this.isEdit) { // 编辑状态，点击去除频道
         if (index) { // 不去除“推荐”频道
           this.channels.splice(index, 1)
+          // 当删除元素的索引小于当前激活的索引，激活索引应当自减
+          if (index <= this.activeTab) {
+            this.$emit('decreaseActive')
+          }
         }
       } else { // 非编辑状态，点击频道跳转
         this.$emit('changeChannel', index)

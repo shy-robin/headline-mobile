@@ -38,6 +38,7 @@
         :channels="channels"
         :active-tab="active"
         @changeChannel="changeChannel"
+        @decreaseActive="active--"
       />
     </van-popup>
   </div>
