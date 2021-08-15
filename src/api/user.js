@@ -33,9 +33,18 @@ const getUserChannels = () => {
   })
 }
 
+// 获取所有频道列表
+const getAllChannels = () => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/channels'
+  })
+}
+
 export {
   userLogin,
   getSmsCode,
   getCurrentUser,
-  getUserChannels
+  getUserChannels,
+  getAllChannels
 }

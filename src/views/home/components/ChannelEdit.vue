@@ -12,26 +12,60 @@
       >编辑</van-button>
     </van-cell>
     <van-grid :border="false" class="my-channel-grid" :gutter="12">
-      <van-grid-item text="文字" center/>
-      <van-grid-item text="文字" center/>
-      <van-grid-item text="文字" center/>
-      <van-grid-item text="文字" center/>
+      <van-grid-item
+        v-for="channel in channels" :key="channel.id"
+        :text="channel.name"
+        class="van-ellipsis"
+        center
+      />
     </van-grid>
     <van-cell class="recommend">
       <div slot="title" class="label">推荐频道</div>
     </van-cell>
     <van-grid :border="false" :gutter="12">
-      <van-grid-item text="文字" />
-      <van-grid-item text="文字" />
-      <van-grid-item text="文字" />
-      <van-grid-item text="文字" />
+      <van-grid-item
+        v-for="channel in recommendChannels" :key="channel.id"
+        :text="channel.name"
+        class="van-ellipsis"
+      />
     </van-grid>
   </div>
 </template>
 
 <script>
+import { getAllChannels } from '@/api/user'
+
 export default {
-  name: 'ChannelEdit'
+  name: 'ChannelEdit',
+  data() {
+    return {
+      allChannels: []
+    }
+  },
+  props: {
+    channels: {
+      type: Array,
+      required: true
+    }
+  },
+  created() {
+    this.loadAllChannels()
+  },
+  methods: {
+    async loadAllChannels() {
+      const { data } = await getAllChannels()
+      this.allChannels = data.data.channels
+    }
+  },
+  computed: {
+    recommendChannels() {
+      return this.allChannels.filter(channel => {
+        return !this.channels.find(userChannel => {
+          return userChannel.id === channel.id
+        })
+      })
+    }
+  }
 }
 </script>
 

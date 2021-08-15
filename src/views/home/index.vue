@@ -34,7 +34,7 @@
       style="height:100%;"
       get-container="body"
     >
-      <channel-edit />
+      <channel-edit :channels="channels" />
     </van-popup>
   </div>
 </template>
