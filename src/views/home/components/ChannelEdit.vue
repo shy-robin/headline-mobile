@@ -45,7 +45,7 @@
 
 <script>
 import { getAllChannels, editChannels, removeChannels } from '@/api/user'
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
   name: 'ChannelEdit',
@@ -84,6 +84,7 @@ export default {
         }])
       } else {
         // 如果处于离线状态
+        this.setChannels(this.channels)
       }
     },
     async onEdit(index, channelId) {
@@ -104,7 +105,8 @@ export default {
       } else { // 非编辑状态，点击频道跳转
         this.$emit('changeChannel', index)
       }
-    }
+    },
+    ...mapMutations('UserMod', ['setChannels'])
   },
   computed: {
     recommendChannels() {
