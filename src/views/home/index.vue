@@ -8,6 +8,7 @@
         icon="sousuo"
         color="#5babfb"
         round
+        @click="$router.push({ name: 'search' })"
       >搜索</van-button>
     </van-nav-bar>
     <van-tabs animated v-model="active">
@@ -54,7 +55,7 @@ export default {
   data() {
     return {
       channels: [],
-      isShowPopup: true,
+      isShowPopup: false,
       active: 0
     }
   },
