@@ -44,7 +44,8 @@
 </template>
 
 <script>
-import { getAllChannels } from '@/api/user'
+import { getAllChannels, editChannels } from '@/api/user'
+import { mapState } from 'vuex'
 
 export default {
   name: 'ChannelEdit',
@@ -72,8 +73,18 @@ export default {
       const { data } = await getAllChannels()
       this.allChannels = data.data.channels
     },
-    onAddRecommend(channel) {
+    async onAddRecommend(channel) {
       this.channels.push(channel)
+
+      if (this.token) {
+        // 如果处于登录状态
+        await editChannels([{
+          id: channel.id,
+          seq: this.channels.length
+        }])
+      } else {
+        // 如果处于离线状态
+      }
     },
     onEdit(index) {
       if (this.isEdit) { // 编辑状态，点击去除频道
@@ -96,7 +107,8 @@ export default {
           return userChannel.id === channel.id
         })
       })
-    }
+    },
+    ...mapState('UserMod', ['token'])
   }
 }
 </script>

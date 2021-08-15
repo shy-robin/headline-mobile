@@ -41,10 +41,20 @@ const getAllChannels = () => {
   })
 }
 
+// 修改用户频道（部分覆盖）
+const editChannels = data => {
+  return request({
+    method: 'PATCH',
+    url: '/app/v1_0/user/channels',
+    data
+  })
+}
+
 export {
   userLogin,
   getSmsCode,
   getCurrentUser,
   getUserChannels,
-  getAllChannels
+  getAllChannels,
+  editChannels
 }
