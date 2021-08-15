@@ -22,21 +22,34 @@
           class="right-icon"
           name="gengduo"
           class-prefix="iconfont"
+          @click="isShowPopup = true"
         />
       </div>
     </van-tabs>
+    <van-popup
+      class="channel-popup"
+      v-model="isShowPopup"
+      position="bottom"
+      closeable
+      style="height:100%;"
+      get-container="body"
+    >
+      <channel-edit />
+    </van-popup>
   </div>
 </template>
 
 <script>
 import { getUserChannels } from '@/api/user'
 import ArticleList from './components/ArticleList.vue'
+import ChannelEdit from './components/ChannelEdit.vue'
 
 export default {
   name: 'HomeIndex',
   data() {
     return {
-      channels: []
+      channels: [],
+      isShowPopup: true
     }
   },
   created() {
@@ -49,7 +62,8 @@ export default {
     }
   },
   components: {
-    ArticleList
+    ArticleList,
+    ChannelEdit
   }
 }
 </script>
