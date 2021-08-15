@@ -9,15 +9,25 @@
         type="primary"
         size="mini"
         round
-      >编辑</van-button>
+        @click="isEdit=!isEdit"
+      >{{ isEdit ? '保存' : '编辑' }}</van-button>
     </van-cell>
     <van-grid :border="false" class="my-channel-grid" :gutter="12">
       <van-grid-item
-        v-for="channel in channels" :key="channel.id"
+        v-for="(channel, index) in channels" :key="channel.id"
         :text="channel.name"
-        class="van-ellipsis"
         center
-      />
+        :style="{color: activeChannel === index ? 'red' : null}"
+        @click="onEdit(index)"
+      >
+        <div
+          slot="icon"
+          class="icon-wrapper"
+          v-if="index && isEdit"
+        >
+          <van-icon name="clear" />
+        </div>
+      </van-grid-item>
     </van-grid>
     <van-cell class="recommend">
       <div slot="title" class="label">推荐频道</div>
@@ -27,6 +37,7 @@
         v-for="channel in recommendChannels" :key="channel.id"
         :text="channel.name"
         class="van-ellipsis"
+        @click="onAddRecommend(channel)"
       />
     </van-grid>
   </div>
@@ -39,7 +50,9 @@ export default {
   name: 'ChannelEdit',
   data() {
     return {
-      allChannels: []
+      allChannels: [],
+      isEdit: false,
+      activeChannel: 0
     }
   },
   props: {
@@ -55,6 +68,18 @@ export default {
     async loadAllChannels() {
       const { data } = await getAllChannels()
       this.allChannels = data.data.channels
+    },
+    onAddRecommend(channel) {
+      this.channels.push(channel)
+    },
+    onEdit(index) {
+      if (this.isEdit) { // 编辑状态，点击去除频道
+        if (index) { // 不去除“推荐”频道
+          this.channels.splice(index, 1)
+        }
+      } else {
+        // 切换
+      }
     }
   },
   computed: {
@@ -80,6 +105,23 @@ export default {
     }
     .edit-button {
       width: 40px;
+    }
+  }
+  .my-channel-grid {
+    ::v-deep .van-grid-item__icon-wrapper {
+      position: unset;
+    }
+    .icon-wrapper {
+      .van-icon {
+        position: absolute;
+        right: 6px;
+        top: -7px;
+        font-size: 14px;
+        color: red;
+      }
+    }
+    ::v-deep .van-grid-item__content {
+      white-space: nowrap;
     }
   }
   .recommend {
