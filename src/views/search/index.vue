@@ -11,7 +11,7 @@
       />
     </form>
     <search-result v-if="isShowResult" />
-    <search-advice v-else-if="searchText" />
+    <search-advice v-else-if="searchText" :search-text="searchText" />
     <search-history v-else />
   </div>
 </template>
