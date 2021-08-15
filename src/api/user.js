@@ -50,11 +50,20 @@ const editChannels = data => {
   })
 }
 
+// 删除用户频道
+const removeChannels = channelId => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/user/channels/${channelId}`
+  })
+}
+
 export {
   userLogin,
   getSmsCode,
   getCurrentUser,
   getUserChannels,
   getAllChannels,
-  editChannels
+  editChannels,
+  removeChannels
 }

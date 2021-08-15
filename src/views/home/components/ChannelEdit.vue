@@ -18,7 +18,7 @@
         :text="channel.name"
         center
         :class="{'active': activeTab === index}"
-        @click="onEdit(index)"
+        @click="onEdit(index, channel.id)"
       >
         <div
           slot="icon"
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { getAllChannels, editChannels } from '@/api/user'
+import { getAllChannels, editChannels, removeChannels } from '@/api/user'
 import { mapState } from 'vuex'
 
 export default {
@@ -86,13 +86,19 @@ export default {
         // 如果处于离线状态
       }
     },
-    onEdit(index) {
+    async onEdit(index, channelId) {
       if (this.isEdit) { // 编辑状态，点击去除频道
         if (index) { // 不去除“推荐”频道
           this.channels.splice(index, 1)
           // 当删除元素的索引小于当前激活的索引，激活索引应当自减
           if (index <= this.activeTab) {
             this.$emit('decreaseActive')
+          }
+          if (this.token) {
+            // 登录状态时
+            await removeChannels(channelId)
+          } else {
+            // 离线状态时
           }
         }
       } else { // 非编辑状态，点击频道跳转
