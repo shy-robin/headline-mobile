@@ -12,9 +12,9 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <van-cell
+        <article-item
           v-for="article in articles" :key="article.art_id"
-          :title="article.title"
+          :article="article"
         />
       </van-list>
     </van-pull-refresh>
@@ -23,6 +23,7 @@
 
 <script>
 import { getArticles } from '@/api/article'
+import ArticleItem from '@/components/article-item/'
 
 export default {
   name: 'ArticleList',
@@ -31,6 +32,9 @@ export default {
       type: Number,
       required: true
     }
+  },
+  components: {
+    ArticleItem
   },
   data() {
     return {
