@@ -12,6 +12,7 @@
 
 <script>
 import { getAdvice } from '@/api/search'
+import debounce from '@/utils/debounce'
 
 export default {
   name: 'SearchAdvice',
@@ -28,10 +29,10 @@ export default {
   },
   watch: {
     searchText: {
-      async handler() {
+      handler: debounce(async function() {
         const res = await getAdvice(this.searchText)
         this.advice = res.data.data.options
-      },
+      }, 500),
       immediate: true // 立刻监听，组件创建时就触发一次
     }
   }
