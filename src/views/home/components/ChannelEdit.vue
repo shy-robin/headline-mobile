@@ -100,13 +100,14 @@ export default {
             await removeChannels(channelId)
           } else {
             // 离线状态时
+            this.removeChannel(this.channels)
           }
         }
       } else { // 非编辑状态，点击频道跳转
         this.$emit('changeChannel', index)
       }
     },
-    ...mapMutations('UserMod', ['setChannels'])
+    ...mapMutations('UserMod', ['setChannels', 'removeChannel'])
   },
   computed: {
     recommendChannels() {

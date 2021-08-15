@@ -17,6 +17,10 @@ export default {
     setChannels(state, data) {
       state.channels = data
       setItem(CHANNELS, data)
+    },
+    removeChannel(state, data) {
+      state.data = data
+      setItem(CHANNELS, data)
     }
   }
 }
