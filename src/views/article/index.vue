@@ -31,6 +31,8 @@
           type="info"
           size="mini"
           round
+          :loading="isFollowLoading"
+          @click="onChangeFollow"
         >关注</van-button>
         <van-button
           v-else
@@ -38,6 +40,8 @@
           round
           plain
           size="mini"
+          :loading="isFollowLoading"
+          @click="onChangeFollow"
         >已关注</van-button>
       </div>
     </van-cell>
@@ -54,13 +58,15 @@
 import './github-markdown.css'
 import { getArticleDetail } from '@/api/article'
 import { ImagePreview } from 'vant'
+import { follow, unfollow } from '@/api/user'
 
 export default {
   name: 'ArticleIndex',
   data() {
     return {
       articleId: this.$route.params.articleId,
-      article: {}
+      article: {},
+      isFollowLoading: false
     }
   },
   created() {
@@ -89,6 +95,17 @@ export default {
           }
         })
       })
+    },
+    async onChangeFollow() {
+      this.isFollowLoading = true
+      if (this.article.is_followed) {
+        // 取消关注
+        await unfollow(this.article.aut_id)
+      } else {
+        // 关注
+        await follow(this.article.aut_id)
+      }
+      this.isFollowLoading = false
     }
   }
 }
