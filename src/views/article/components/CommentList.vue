@@ -1,0 +1,63 @@
+<template>
+  <van-list
+    class="comment"
+    v-model="loading"
+    :finished="finished"
+    finished-text="没有更多了"
+    @load="onLoad"
+  >
+    <van-cell title="评论" />
+    <van-cell
+      v-for="(item, index) in commentList" :key="index"
+      :title="item.content"
+    />
+  </van-list>
+</template>
+
+<script>
+import { getComments } from '@/api/comment'
+
+export default {
+  name: 'CommentList',
+  props: {
+    articleId: {
+      type: [Number, String, Object], // 传入的数据可能是这三种类型
+      required: true
+    }
+  },
+  data() {
+    return {
+      commentList: [],
+      loading: false,
+      finished: false,
+      offset: 0,
+      limit: 10
+    }
+  },
+  methods: {
+    async onLoad() {
+      // 请求数据
+      const { data } = await getComments({
+        type: 'a',
+        source: this.articleId,
+        offset: null,
+        limit: this.limit
+      })
+      const { results } = data.data
+      console.log(results)
+
+      this.commentList.push(...results)
+
+      this.loading = false
+
+      if (!results.length) {
+        this.finished = true
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+
+</style>

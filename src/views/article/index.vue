@@ -5,70 +5,73 @@
       @click-left="$router.back()"
       :border="false"
     />
-    <div class="title">
-      <span>{{ article.title }}</span>
-    </div>
-    <van-cell
-      class="author-info"
-    >
-      <div slot="title" class="title">
-        <van-image
-          class="avatar"
-          fit="cover"
+    <div class="middle">
+      <div class="title">
+        <span>{{ article.title }}</span>
+      </div>
+      <van-cell
+        class="author-info"
+      >
+        <div slot="title" class="title">
+          <van-image
+            class="avatar"
+            fit="cover"
+            round
+            :src="article.aut_photo"
+          />
+          <div class="info">
+            <span class="name">{{ article.aut_name }}</span>
+            <span class="time">{{ article.pubdate | relativeTime }}</span>
+          </div>
+        </div>
+        <div>
+          <van-button
+            v-if="!article.is_followed"
+            class="follow-button"
+            icon="plus"
+            type="info"
+            size="mini"
+            round
+            :loading="isFollowLoading"
+            @click="onChangeFollow"
+          >关注</van-button>
+          <van-button
+            v-else
+            class="follow-button"
+            round
+            plain
+            size="mini"
+            :loading="isFollowLoading"
+            @click="onChangeFollow"
+          >已关注</van-button>
+        </div>
+      </van-cell>
+      <div
+        class="content markdown-body"
+        v-html="article.content"
+        ref="content"
+      >
+      </div>
+      <div class="bottom">
+        <van-button
+          class="left"
           round
-          :src="article.aut_photo"
-        />
-        <div class="info">
-          <span class="name">{{ article.aut_name }}</span>
-          <span class="time">{{ article.pubdate | relativeTime }}</span>
+          size="mini"
+        >写评论</van-button>
+        <div class="right">
+          <van-icon
+            :name="article.attitude === 1 ? 'good-job' : 'good-job-o'"
+            @click="onLike"
+          />
+          <van-icon name="pinglun" class-prefix="iconfont" />
+          <van-icon
+            :name="article.is_collected ? 'star' : 'star-o'"
+            @click="onStar"
+          />
+          <van-icon name="fenxiang" class-prefix="iconfont" />
         </div>
       </div>
-      <div>
-        <van-button
-          v-if="!article.is_followed"
-          class="follow-button"
-          icon="plus"
-          type="info"
-          size="mini"
-          round
-          :loading="isFollowLoading"
-          @click="onChangeFollow"
-        >关注</van-button>
-        <van-button
-          v-else
-          class="follow-button"
-          round
-          plain
-          size="mini"
-          :loading="isFollowLoading"
-          @click="onChangeFollow"
-        >已关注</van-button>
-      </div>
-    </van-cell>
-    <div
-      class="content markdown-body"
-      v-html="article.content"
-      ref="content"
-    >
-    </div>
-    <div class="bottom">
-      <van-button
-        class="left"
-        round
-        size="mini"
-      >写评论</van-button>
-      <div class="right">
-        <van-icon
-          :name="article.attitude === 1 ? 'good-job' : 'good-job-o'"
-          @click="onLike"
-        />
-        <van-icon name="pinglun" class-prefix="iconfont" />
-        <van-icon
-          :name="article.is_collected ? 'star' : 'star-o'"
-          @click="onStar"
-        />
-        <van-icon name="fenxiang" class-prefix="iconfont" />
-      </div>
+      <comment-list :article-id="articleId" />
     </div>
   </div>
 </template>
@@ -84,6 +87,7 @@ import {
 } from '@/api/article'
 import { ImagePreview } from 'vant'
 import { follow, unfollow } from '@/api/user'
+import CommentList from './components/CommentList.vue'
 
 export default {
   name: 'ArticleIndex',
@@ -163,6 +167,9 @@ export default {
         this.$toast.success('点赞成功')
       }
     }
+  },
+  components: {
+    CommentList
   }
 }
 </script>
@@ -261,6 +268,14 @@ export default {
         color: #777777;
       }
     }
+  }
+  .middle {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 46px;
+    bottom: 45px;
+    overflow-y: auto;
   }
 }
 </style>
