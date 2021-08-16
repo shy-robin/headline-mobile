@@ -25,12 +25,20 @@
       </div>
       <div>
         <van-button
+          v-if="!article.is_followed"
           class="follow-button"
           icon="plus"
           type="info"
           size="mini"
           round
         >关注</van-button>
+        <van-button
+          v-else
+          class="follow-button"
+          round
+          plain
+          size="mini"
+        >已关注</van-button>
       </div>
     </van-cell>
     <div
@@ -110,6 +118,8 @@ export default {
   }
   .content {
     padding-top: 20px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }
 </style>
