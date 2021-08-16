@@ -10,7 +10,10 @@
         @focus="isShowResult = false"
       />
     </form>
-    <search-result v-if="isShowResult" :search-text="searchText" />
+    <search-result
+      v-if="isShowResult"
+      :search-text="searchText"
+    />
     <search-advice
       v-else-if="searchText"
       :search-text="searchText"
@@ -27,6 +30,8 @@
 import SearchAdvice from './components/SearchAdvice.vue'
 import SearchHistory from './components/SearchHistory.vue'
 import SearchResult from './components/SearchResult.vue'
+import { mapState, mapMutations } from 'vuex'
+import { getSearchHistory } from '@/api/search'
 
 export default {
   name: 'SearchIndex',
@@ -37,6 +42,15 @@ export default {
       searchHistory: []
     }
   },
+  created() {
+    if (this.token) {
+      // 登录状态下，获取数据库中历史记录
+      this.loadSearchHistory()
+    } else {
+      // 离线状态下，获取 localStorage 历史记录
+      this.searchHistory = this.history
+    }
+  },
   methods: {
     onSearch(word) {
       this.searchText = word
@@ -45,14 +59,26 @@ export default {
       this.searchHistory.unshift(this.searchText)
       // 记录去重
       this.searchHistory = [...new Set(this.searchHistory)]
+      if (!this.token) {
+        this.setHistory(this.searchHistory)
+      }
 
       this.isShowResult = true
-    }
+    },
+    async loadSearchHistory() {
+      const { data } = await getSearchHistory()
+      this.searchHistory = data.data.keywords
+    },
+    ...mapMutations('SearchMod', ['setHistory'])
   },
   components: {
     SearchAdvice,
     SearchHistory,
     SearchResult
+  },
+  computed: {
+    ...mapState('UserMod', ['token']),
+    ...mapState('SearchMod', ['history'])
   }
 }
 </script>

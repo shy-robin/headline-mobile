@@ -20,7 +20,16 @@ const getSearchResult = params => {
   })
 }
 
+// 获取搜索记录
+const getSearchHistory = () => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/search/histories'
+  })
+}
+
 export {
   getAdvice,
-  getSearchResult
+  getSearchResult,
+  getSearchHistory
 }
