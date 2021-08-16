@@ -15,6 +15,12 @@
         <article-item
           v-for="article in articles" :key="article.art_id"
           :article="article"
+          @click.native="$router.push({
+            name: 'article',
+            params: {
+              articleId: article.art_id
+            }
+          })"
         />
       </van-list>
     </van-pull-refresh>
