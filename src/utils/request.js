@@ -1,9 +1,19 @@
 import axios from 'axios'
 import store from '@/store/'
+import JSONBig from 'json-bigint'
 
 const request = axios.create({
   // baseURL: 'http://ttapi.research.itcast.cn/app/'
-  baseURL: '/api' // 使用代理解决跨域问题
+  baseURL: '/api', // 使用代理解决跨域问题
+  transformResponse: [
+    data => {
+      try {
+        return JSONBig.parse(data)
+      } catch (ex) {
+        return data
+      }
+    }
+  ]
 })
 
 // 请求拦截器

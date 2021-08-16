@@ -13,7 +13,7 @@
         @load="onLoad"
       >
         <article-item
-          v-for="article in articles" :key="article.art_id"
+          v-for="(article, index) in articles" :key="index"
           :article="article"
           @click.native="$router.push({
             name: 'article',

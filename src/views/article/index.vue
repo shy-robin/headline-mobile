@@ -6,7 +6,7 @@
       :border="false"
     />
     <div class="title">
-      <span>牛白发发打扫房间是覅哦啊萨芬士大夫，风骚覅道具</span>
+      <span>{{ article.title }}</span>
     </div>
     <van-cell
       class="author-info"
@@ -16,11 +16,11 @@
           class="avatar"
           fit="cover"
           round
-          src="https://img01.yzcdn.cn/vant/cat.jpeg"
+          :src="article.aut_photo"
         />
         <div class="info">
-          <span class="name">天涯小星可</span>
-          <span class="time">14小时前</span>
+          <span class="name">{{ article.aut_name }}</span>
+          <span class="time">{{ article.pubdate | relativeTime }}</span>
         </div>
       </div>
       <div>
@@ -33,10 +33,10 @@
         >关注</van-button>
       </div>
     </van-cell>
-    <div class="content markdown-body">
-      <span>这是文章内容</span>
-      <span>这是文章内容</span>
-      <span>这是文章内容</span>
+    <div
+      class="content markdown-body"
+      v-html="article.content"
+    >
     </div>
   </div>
 </template>
@@ -49,7 +49,8 @@ export default {
   name: 'ArticleIndex',
   data() {
     return {
-      articleId: this.$route.params.articleId
+      articleId: this.$route.params.articleId,
+      article: {}
     }
   },
   created() {
@@ -57,9 +58,8 @@ export default {
   },
   methods: {
     async loadArticleDetail() {
-      console.log(this.articleId)
-      const { data } = getArticleDetail(this.articleId)
-      console.log(data)
+      const { data } = await getArticleDetail(this.articleId)
+      this.article = data.data
     }
   }
 }
