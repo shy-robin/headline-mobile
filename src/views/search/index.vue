@@ -22,6 +22,7 @@
     <search-history
       v-else
       :search-history="searchHistory"
+      @search="onSearch"
     />
   </div>
 </template>
