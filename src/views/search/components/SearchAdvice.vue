@@ -3,9 +3,10 @@
     <van-cell-group>
       <van-cell
         v-for="(item, index) in advice" :key="index"
-        :title="item"
         icon="search"
-      />
+      >
+        <div slot="title" v-html="highlight(item)"></div>
+      </van-cell>
     </van-cell-group>
   </div>
 </template>
@@ -34,6 +35,14 @@ export default {
         this.advice = res.data.data.options
       }, 500),
       immediate: true // 立刻监听，组件创建时就触发一次
+    }
+  },
+  methods: {
+    highlight(str) {
+      return str.replace(
+        new RegExp(this.searchText, 'ig'), // 忽略大小写，全局匹配
+        `<span style="color:red">${this.searchText}</span>`
+      )
     }
   }
 }
