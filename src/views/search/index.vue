@@ -16,7 +16,10 @@
       :search-text="searchText"
       @search="onSearch"
     />
-    <search-history v-else />
+    <search-history
+      v-else
+      :search-history="searchHistory"
+    />
   </div>
 </template>
 
@@ -30,12 +33,19 @@ export default {
   data() {
     return {
       searchText: '',
-      isShowResult: false
+      isShowResult: false,
+      searchHistory: []
     }
   },
   methods: {
     onSearch(word) {
       this.searchText = word
+
+      // 存储搜索记录
+      this.searchHistory.unshift(this.searchText)
+      // 记录去重
+      this.searchHistory = [...new Set(this.searchHistory)]
+
       this.isShowResult = true
     }
   },

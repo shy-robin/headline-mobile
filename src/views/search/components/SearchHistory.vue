@@ -6,20 +6,10 @@
         <van-icon name="delete" />
       </template>
     </van-cell>
-    <van-cell title="v">
-      <!-- 使用 right-icon 插槽来自定义右侧图标 -->
-      <template #right-icon>
-        <van-icon name="close" />
-      </template>
-    </van-cell>
-    <van-cell title="vant">
-      <!-- 使用 right-icon 插槽来自定义右侧图标 -->
-      <template #right-icon>
-        <van-icon name="close" />
-      </template>
-    </van-cell>
-    <van-cell title="vue">
-      <!-- 使用 right-icon 插槽来自定义右侧图标 -->
+    <van-cell
+      v-for="(item, index) in searchHistory" :key="index"
+      :title="item"
+    >
       <template #right-icon>
         <van-icon name="close" />
       </template>
@@ -29,7 +19,13 @@
 
 <script>
 export default {
-  name: 'SearchHistory'
+  name: 'SearchHistory',
+  props: {
+    searchHistory: {
+      type: Array,
+      required: true
+    }
+  }
 }
 </script>
 
