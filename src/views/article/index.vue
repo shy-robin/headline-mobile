@@ -44,6 +44,7 @@
     <div
       class="content markdown-body"
       v-html="article.content"
+      ref="content"
     >
     </div>
   </div>
@@ -52,6 +53,7 @@
 <script>
 import './github-markdown.css'
 import { getArticleDetail } from '@/api/article'
+import { ImagePreview } from 'vant'
 
 export default {
   name: 'ArticleIndex',
@@ -68,6 +70,25 @@ export default {
     async loadArticleDetail() {
       const { data } = await getArticleDetail(this.articleId)
       this.article = data.data
+
+      this.previewImage()
+    },
+    previewImage() {
+      // 数据改变，视图更新不是立即的
+      // 需要使用 $nextTick，里面的回调函数会等到视图更新后执行，这样就能获取 DOM
+      this.$nextTick(() => {
+        const imgList = this.$refs.content.querySelectorAll('img')
+        const imgSrc = []
+        imgList.forEach((img, index) => {
+          imgSrc.push(img.src)
+          img.onclick = () => {
+            ImagePreview({
+              images: imgSrc,
+              startPosition: index
+            })
+          }
+        })
+      })
     }
   }
 }
