@@ -36,9 +36,30 @@ const unstarArticle = articleId => {
   })
 }
 
+// 点赞文章
+const likeArticle = articleId => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/article/likings',
+    data: {
+      target: articleId
+    }
+  })
+}
+
+// 取消点赞
+const cancelLikeArticle = articleId => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/article/likings/${articleId}`
+  })
+}
+
 export {
   getArticles,
   getArticleDetail,
   starArticle,
-  unstarArticle
+  unstarArticle,
+  likeArticle,
+  cancelLikeArticle
 }

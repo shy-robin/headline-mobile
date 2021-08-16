@@ -58,10 +58,12 @@
         size="mini"
       >写评论</van-button>
       <div class="right">
-        <van-icon name="dianzan" class-prefix="iconfont" />
+        <van-icon
+          :name="article.attitude === 1 ? 'good-job' : 'good-job-o'"
+          @click="onLike"
+        />
         <van-icon name="pinglun" class-prefix="iconfont" />
         <van-icon
-          class="star"
           :name="article.is_collected ? 'star' : 'star-o'"
           @click="onStar"
         />
@@ -73,7 +75,13 @@
 
 <script>
 import './github-markdown.css'
-import { getArticleDetail, starArticle, unstarArticle } from '@/api/article'
+import {
+  getArticleDetail,
+  starArticle,
+  unstarArticle,
+  likeArticle,
+  cancelLikeArticle
+} from '@/api/article'
 import { ImagePreview } from 'vant'
 import { follow, unfollow } from '@/api/user'
 
@@ -126,7 +134,7 @@ export default {
     },
     async onStar() {
       this.$toast.loading({
-        message: '收藏中...',
+        message: '操作中...',
         forbidClick: true,
         duration: 0
       })
@@ -138,6 +146,22 @@ export default {
         this.$toast.success('收藏成功')
       }
       this.article.is_collected = !this.article.is_collected
+    },
+    async onLike() {
+      this.$toast.loading({
+        message: '操作中...',
+        forbidClick: true,
+        duration: 0
+      })
+      if (this.article.attitude === 1) {
+        await cancelLikeArticle(this.articleId)
+        this.article.attitude = 0
+        this.$toast.success('已取消点赞')
+      } else {
+        await likeArticle(this.articleId)
+        this.article.attitude = 1
+        this.$toast.success('点赞成功')
+      }
     }
   }
 }
@@ -213,8 +237,12 @@ export default {
       display: flex;
       justify-content: space-evenly;
       align-items: flex-end;
-      .iconfont-dianzan {
-        font-size: 20px;
+      .van-icon-good-job-o {
+        font-size: 24px;
+      }
+      .van-icon-good-job {
+        font-size: 24px;
+        color: red;
       }
       .iconfont-pinglun {
         font-size: 18px;
