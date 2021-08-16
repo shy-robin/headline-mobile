@@ -51,6 +51,19 @@
       ref="content"
     >
     </div>
+    <div class="bottom">
+      <van-button
+        class="left"
+        round
+        size="mini"
+      >写评论</van-button>
+      <div class="right">
+        <van-icon name="dianzan" class-prefix="iconfont" />
+        <van-icon name="pinglun" class-prefix="iconfont" />
+        <van-icon name="shoucang" class-prefix="iconfont" />
+        <van-icon name="fenxiang" class-prefix="iconfont" />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -158,6 +171,32 @@ export default {
     padding-top: 20px;
     padding-left: 12px;
     padding-right: 12px;
+  }
+  .bottom {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-top: 1px solid #d8d8d8;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    .left {
+      margin: 10px 15px;
+      flex: 1;
+      .van-button__text {
+        font-size: 15px;
+        color: #a7a7a7;
+      }
+    }
+    .right {
+      flex: 1;
+      display: flex;
+      justify-content: space-evenly;
+      .iconfont {
+        font-size: 20px;
+      }
+    }
   }
 }
 </style>
