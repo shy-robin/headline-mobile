@@ -11,7 +11,11 @@
       />
     </form>
     <search-result v-if="isShowResult" :search-text="searchText" />
-    <search-advice v-else-if="searchText" :search-text="searchText" />
+    <search-advice
+      v-else-if="searchText"
+      :search-text="searchText"
+      @search="onSearch"
+    />
     <search-history v-else />
   </div>
 </template>
@@ -30,7 +34,8 @@ export default {
     }
   },
   methods: {
-    onSearch() {
+    onSearch(word) {
+      this.searchText = word
       this.isShowResult = true
     }
   },
