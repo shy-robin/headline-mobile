@@ -10,7 +10,7 @@
         @focus="isShowResult = false"
       />
     </form>
-    <search-result v-if="isShowResult" />
+    <search-result v-if="isShowResult" :search-text="searchText" />
     <search-advice v-else-if="searchText" :search-text="searchText" />
     <search-history v-else />
   </div>

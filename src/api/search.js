@@ -11,6 +11,16 @@ const getAdvice = q => {
   })
 }
 
+// 获取搜索结果
+const getSearchResult = params => {
+  return request({
+    method: 'GET',
+    url: '/app/v1_0/search',
+    params
+  })
+}
+
 export {
-  getAdvice
+  getAdvice,
+  getSearchResult
 }
