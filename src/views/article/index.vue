@@ -43,9 +43,25 @@
 
 <script>
 import './github-markdown.css'
+import { getArticleDetail } from '@/api/article'
 
 export default {
-  name: 'ArticleIndex'
+  name: 'ArticleIndex',
+  data() {
+    return {
+      articleId: this.$route.params.articleId
+    }
+  },
+  created() {
+    this.loadArticleDetail()
+  },
+  methods: {
+    async loadArticleDetail() {
+      console.log(this.articleId)
+      const { data } = getArticleDetail(this.articleId)
+      console.log(data)
+    }
+  }
 }
 </script>
 

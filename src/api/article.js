@@ -9,6 +9,15 @@ const getArticles = params => {
   })
 }
 
+// 获取指定文章详情
+const getArticleDetail = articleId => {
+  return request({
+    method: 'GET',
+    url: `/app/v1_0/articles/${articleId}`
+  })
+}
+
 export {
-  getArticles
+  getArticles,
+  getArticleDetail
 }
