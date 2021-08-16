@@ -57,7 +57,8 @@ export default {
           title: '提示',
           message: '确定删除所有历史记录吗？'
         })
-        console.log(111)
+        // 删除所有历史记录
+        this.$emit('clearAll')
       } catch (ex) {}
     },
     onClickItem(index) {

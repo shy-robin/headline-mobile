@@ -28,8 +28,17 @@ const getSearchHistory = () => {
   })
 }
 
+// 删除所有搜索记录
+const clearSearchHistory = () => {
+  return request({
+    method: 'DELETE',
+    url: '/app/v1_0/search/histories'
+  })
+}
+
 export {
   getAdvice,
   getSearchResult,
-  getSearchHistory
+  getSearchHistory,
+  clearSearchHistory
 }

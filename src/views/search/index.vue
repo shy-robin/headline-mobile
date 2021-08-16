@@ -24,6 +24,7 @@
       :search-history="searchHistory"
       @search="onSearch"
       @delete="onDelete"
+      @clearAll="onClearAll"
     />
   </div>
 </template>
@@ -33,7 +34,7 @@ import SearchAdvice from './components/SearchAdvice.vue'
 import SearchHistory from './components/SearchHistory.vue'
 import SearchResult from './components/SearchResult.vue'
 import { mapState, mapMutations } from 'vuex'
-import { getSearchHistory } from '@/api/search'
+import { getSearchHistory, clearSearchHistory } from '@/api/search'
 
 export default {
   name: 'SearchIndex',
@@ -77,6 +78,14 @@ export default {
       // 数据持久化，修改本地数据，由于没有修改一个历史记录的接口，所以不做处理
       if (!this.token) {
         this.setHistory(this.searchHistory)
+      }
+    },
+    async onClearAll() {
+      this.searchHistory = []
+      if (this.token) {
+        await clearSearchHistory()
+      } else {
+        this.setHistory([])
       }
     },
     ...mapMutations('SearchMod', ['setHistory'])
