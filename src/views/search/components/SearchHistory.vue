@@ -61,9 +61,9 @@ export default {
       } catch (ex) {}
     },
     onClickItem(index) {
-      // console.log(index)
       if (this.isShowDelete) {
         // 删除操作
+        this.$emit('delete', index)
       } else {
         // 搜索操作
         this.$emit('search', this.searchHistory[index])

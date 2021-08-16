@@ -23,6 +23,7 @@
       v-else
       :search-history="searchHistory"
       @search="onSearch"
+      @delete="onDelete"
     />
   </div>
 </template>
@@ -69,6 +70,14 @@ export default {
     async loadSearchHistory() {
       const { data } = await getSearchHistory()
       this.searchHistory = data.data.keywords
+    },
+    onDelete(index) {
+      // 删除某项历史记录
+      this.searchHistory.splice(index, 1)
+      // 数据持久化，修改本地数据，由于没有修改一个历史记录的接口，所以不做处理
+      if (!this.token) {
+        this.setHistory(this.searchHistory)
+      }
     },
     ...mapMutations('SearchMod', ['setHistory'])
   },
