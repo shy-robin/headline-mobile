@@ -60,7 +60,11 @@
       <div class="right">
         <van-icon name="dianzan" class-prefix="iconfont" />
         <van-icon name="pinglun" class-prefix="iconfont" />
-        <van-icon name="shoucang" class-prefix="iconfont" />
+        <van-icon
+          class="star"
+          :name="article.is_collected ? 'star' : 'star-o'"
+          @click="onStar"
+        />
         <van-icon name="fenxiang" class-prefix="iconfont" />
       </div>
     </div>
@@ -69,7 +73,7 @@
 
 <script>
 import './github-markdown.css'
-import { getArticleDetail } from '@/api/article'
+import { getArticleDetail, starArticle, unstarArticle } from '@/api/article'
 import { ImagePreview } from 'vant'
 import { follow, unfollow } from '@/api/user'
 
@@ -119,6 +123,21 @@ export default {
         await follow(this.article.aut_id)
       }
       this.isFollowLoading = false
+    },
+    async onStar() {
+      this.$toast.loading({
+        message: '收藏中...',
+        forbidClick: true,
+        duration: 0
+      })
+      if (this.article.is_collected) {
+        await unstarArticle(this.articleId)
+        this.$toast.success('已取消收藏')
+      } else {
+        await starArticle(this.articleId)
+        this.$toast.success('收藏成功')
+      }
+      this.article.is_collected = !this.article.is_collected
     }
   }
 }
@@ -193,8 +212,25 @@ export default {
       flex: 1;
       display: flex;
       justify-content: space-evenly;
-      .iconfont {
+      align-items: flex-end;
+      .iconfont-dianzan {
         font-size: 20px;
+      }
+      .iconfont-pinglun {
+        font-size: 18px;
+        color: #777777;
+      }
+      .van-icon-star {
+        font-size: 22px;
+        color: rgb(255, 166, 0);
+      }
+      .van-icon-star-o {
+        font-size: 22px;
+        color: #777777;
+      }
+      .iconfont-fenxiang {
+        font-size: 18px;
+        color: #777777;
       }
     }
   }

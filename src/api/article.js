@@ -17,7 +17,28 @@ const getArticleDetail = articleId => {
   })
 }
 
+// 收藏文章
+const starArticle = articleId => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/article/collections',
+    data: {
+      target: articleId
+    }
+  })
+}
+
+// 取消收藏文章
+const unstarArticle = articleId => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/article/collections/${articleId}`
+  })
+}
+
 export {
   getArticles,
-  getArticleDetail
+  getArticleDetail,
+  starArticle,
+  unstarArticle
 }
