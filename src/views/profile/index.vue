@@ -13,7 +13,11 @@
             <span class="name">{{ userInfo.name }}</span>
           </div>
           <div class="right">
-            <van-button class="edit-button" round>编辑资料</van-button>
+            <van-button
+              class="edit-button"
+              round
+              to="/info"
+            >编辑资料</van-button>
           </div>
         </van-cell>
         <van-grid class="statistic" :border="false">
