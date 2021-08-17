@@ -20,7 +20,7 @@
         {{ comment.content }}
       </div>
       <div class="bottom">
-        <span class="time">{{ comment.pubdate }}</span>
+        <span class="time">{{ comment.pubdate | dateTime }}</span>
         <van-button
           class="reply"
           size="mini"
