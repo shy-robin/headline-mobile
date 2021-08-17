@@ -95,6 +95,7 @@
       position="bottom"
     >
       <reply-list
+        v-if="isShowReplyPopup"
         :comment="replyItem"
         @closeReply="isShowReplyPopup=false"
       />
