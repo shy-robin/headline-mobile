@@ -57,6 +57,7 @@
           class="left"
           round
           size="mini"
+          @click="isShowPopup = true"
         >写评论</van-button>
         <div class="right">
           <van-icon
@@ -71,8 +72,20 @@
           <van-icon name="fenxiang" class-prefix="iconfont" />
         </div>
       </div>
-      <comment-list :article-id="articleId" />
+      <comment-list
+        :article-id="articleId"
+        :comment-list="commentList"
+      />
     </div>
+    <van-popup
+      v-model="isShowPopup"
+      position="bottom"
+    >
+      <publish-comment
+        :target="articleId"
+        @publishSuccess="publishSuccess"
+      />
+    </van-popup>
   </div>
 </template>
 
@@ -88,6 +101,7 @@ import {
 import { ImagePreview } from 'vant'
 import { follow, unfollow } from '@/api/user'
 import CommentList from './components/CommentList.vue'
+import PublishComment from './components/PublishComment.vue'
 
 export default {
   name: 'ArticleIndex',
@@ -95,7 +109,9 @@ export default {
     return {
       articleId: this.$route.params.articleId,
       article: {},
-      isFollowLoading: false
+      isFollowLoading: false,
+      isShowPopup: false,
+      commentList: []
     }
   },
   created() {
@@ -166,10 +182,15 @@ export default {
         this.article.attitude = 1
         this.$toast.success('点赞成功')
       }
+    },
+    publishSuccess(comment) {
+      this.commentList.unshift(comment)
+      this.isShowPopup = false
     }
   },
   components: {
-    CommentList
+    CommentList,
+    PublishComment
   }
 }
 </script>

@@ -28,8 +28,18 @@ const cancelLikeComment = commentId => {
   })
 }
 
+// 添加评论
+const addComment = data => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/comments',
+    data
+  })
+}
+
 export {
   getComments,
   likeComment,
-  cancelLikeComment
+  cancelLikeComment,
+  addComment
 }

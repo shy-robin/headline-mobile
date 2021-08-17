@@ -24,11 +24,14 @@ export default {
     articleId: {
       type: [Number, String, Object], // 传入的数据可能是这三种类型
       required: true
+    },
+    commentList: {
+      type: Array,
+      default: () => []
     }
   },
   data() {
     return {
-      commentList: [],
       loading: false,
       finished: false,
       offset: 0,
