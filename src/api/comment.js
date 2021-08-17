@@ -9,6 +9,27 @@ const getComments = params => {
   })
 }
 
+// 对评论点赞
+const likeComment = commentId => {
+  return request({
+    method: 'POST',
+    url: '/app/v1_0/comment/likings',
+    data: {
+      target: commentId
+    }
+  })
+}
+
+// 取消对评论点赞
+const cancelLikeComment = commentId => {
+  return request({
+    method: 'DELETE',
+    url: `/app/v1_0/comment/likings/${commentId}`
+  })
+}
+
 export {
-  getComments
+  getComments,
+  likeComment,
+  cancelLikeComment
 }

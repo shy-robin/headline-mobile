@@ -12,7 +12,11 @@
       <div class="top">
         <span class="name">{{ comment.aut_name }}</span>
         <span class="like">
-          <van-icon class="like-icon" name="good-job-o" />
+          <van-icon
+            class="like-icon"
+            :name="comment.is_liking ? 'good-job' : 'good-job-o'"
+            @click="onLike"
+          />
           {{ comment.like_count }}
         </span>
       </div>
@@ -32,12 +36,29 @@
 </template>
 
 <script>
+import { likeComment, cancelLikeComment } from '@/api/comment'
+
 export default {
   name: 'CommentItem',
   props: {
     comment: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    async onLike() {
+      if (this.comment.is_liking) {
+        // 取消点赞
+        await cancelLikeComment(this.comment.com_id.toString())
+        this.comment.is_liking = false
+        this.comment.like_count--
+      } else {
+        // 点赞
+        await likeComment(this.comment.com_id.toString())
+        this.comment.is_liking = true
+        this.comment.like_count++
+      }
     }
   }
 }
@@ -72,6 +93,11 @@ export default {
         .like-icon {
           margin-right: 2px;
           font-size: 18px;
+        }
+        .van-icon-good-job {
+          margin-right: 2px;
+          font-size: 18px;
+          color: red;
         }
       }
     }
