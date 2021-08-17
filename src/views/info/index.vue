@@ -33,8 +33,21 @@
       position="bottom"
       :style="{ height: '100%' }"
     >
+      <!--
+        补充：
+          v-model 只能使用一次，如果要对多个属性进行双向绑定就需要使用 .sync（多个数据保持同步）
+        例如：
+          :gender.sync="userInfo.gender" 相当于：
+            1. :gender="userInfo.gender"
+            2. @update:gender="userInfo.gender = $event"
+        总结：
+          我们一般把最常用的数据设计为 v-model 绑定，
+          把不太常用的数据设计为 .sync 绑定
+      -->
       <edit-name
         v-model="userInfo.name"
+        :gender.sync="userInfo.gender"
+        :photo.sync="userInfo.photo"
         @closeEdit="isShowEditName = false"
       />
     </van-popup>
