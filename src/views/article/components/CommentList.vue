@@ -47,8 +47,8 @@ export default {
         offset: null,
         limit: this.limit
       })
-      const { results } = data.data
-      console.log(results)
+      const { results, total_count: totalCount } = data.data
+      this.$emit('commentCount', totalCount)
 
       this.commentList.push(...results)
 

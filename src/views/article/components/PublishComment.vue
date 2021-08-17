@@ -56,6 +56,7 @@ export default {
       this.$toast.success('发表成功')
       this.comment = ''
       this.$emit('publishSuccess', data.data.new_obj) // 返回新评论
+      this.$emit('addCommentCount') // 增加评论
     }
   }
 }

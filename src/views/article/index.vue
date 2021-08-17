@@ -64,7 +64,9 @@
             :name="article.attitude === 1 ? 'good-job' : 'good-job-o'"
             @click="onLike"
           />
-          <van-icon name="pinglun" class-prefix="iconfont" />
+          <van-badge :content="commentCount">
+            <van-icon name="pinglun" class-prefix="iconfont" />
+          </van-badge>
           <van-icon
             :name="article.is_collected ? 'star' : 'star-o'"
             @click="onStar"
@@ -75,6 +77,7 @@
       <comment-list
         :article-id="articleId"
         :comment-list="commentList"
+        @commentCount="commentCount=$event"
       />
     </div>
     <van-popup
@@ -84,6 +87,7 @@
       <publish-comment
         :target="articleId"
         @publishSuccess="publishSuccess"
+        @addCommentCount="commentCount++"
       />
     </van-popup>
   </div>
@@ -111,7 +115,8 @@ export default {
       article: {},
       isFollowLoading: false,
       isShowPopup: false,
-      commentList: []
+      commentList: [],
+      commentCount: 0
     }
   },
   created() {
@@ -264,7 +269,7 @@ export default {
       flex: 1;
       display: flex;
       justify-content: space-evenly;
-      align-items: flex-end;
+      align-items: center;
       .van-icon-good-job-o {
         font-size: 24px;
       }
@@ -287,6 +292,11 @@ export default {
       .iconfont-fenxiang {
         font-size: 18px;
         color: #777777;
+      }
+      ::v-deep .van-badge--fixed {
+        font-size: 10px;
+        top: 12px;
+        right: -1px;
       }
     }
   }
