@@ -7,15 +7,16 @@
     @load="onLoad"
   >
     <van-cell title="评论" />
-    <van-cell
-      v-for="(item, index) in commentList" :key="index"
-      :title="item.content"
+    <comment-item
+      v-for="(comment, index) in commentList" :key="index"
+      :comment="comment"
     />
   </van-list>
 </template>
 
 <script>
 import { getComments } from '@/api/comment'
+import CommentItem from './CommentItem.vue'
 
 export default {
   name: 'CommentList',
@@ -54,6 +55,9 @@ export default {
         this.finished = true
       }
     }
+  },
+  components: {
+    CommentItem
   }
 }
 </script>
