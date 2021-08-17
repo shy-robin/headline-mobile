@@ -26,6 +26,7 @@
       title="性别"
       :value="userInfo.gender === 1 ? '女' : '男'"
       is-link
+      @click="isShowEditGender = true"
     />
     <van-cell title="生日" :value="userInfo.birthday" is-link />
     <van-popup
@@ -50,19 +51,32 @@
         @closeEdit="isShowEditName = false"
       />
     </van-popup>
+    <van-popup
+      v-if="isShowEditGender"
+      v-model="isShowEditGender"
+      round
+      position="bottom"
+    >
+      <edit-gender
+        v-model="userInfo.gender"
+        @close="isShowEditGender = false"
+      />
+    </van-popup>
   </div>
 </template>
 
 <script>
 import { getProfile } from '@/api/user'
 import EditName from './components/EditName.vue'
+import EditGender from './components/EditGender.vue'
 
 export default {
   name: 'InfoIndex',
   data() {
     return {
       userInfo: {},
-      isShowEditName: false
+      isShowEditName: false,
+      isShowEditGender: false
     }
   },
   created() {
@@ -75,7 +89,8 @@ export default {
     }
   },
   components: {
-    EditName
+    EditName,
+    EditGender
   }
 }
 </script>
