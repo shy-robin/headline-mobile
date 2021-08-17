@@ -22,8 +22,6 @@
       maxlength="7"
       show-word-limit
     />
-    <button @click="$emit('update:gender', 'test')">修改gender</button>
-    <button @click="$emit('update:photo', 'test')">修改photo</button>
   </div>
 </template>
 
@@ -32,7 +30,7 @@ import { editProfile } from '@/api/user'
 
 export default {
   name: 'EditName',
-  props: ['value', 'gender', 'photo'],
+  props: ['value'],
   data() {
     return {
       localName: this.value

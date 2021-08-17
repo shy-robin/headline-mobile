@@ -45,9 +45,8 @@
           把不太常用的数据设计为 .sync 绑定
       -->
       <edit-name
+        v-if="isShowEditName"
         v-model="userInfo.name"
-        :gender.sync="userInfo.gender"
-        :photo.sync="userInfo.photo"
         @closeEdit="isShowEditName = false"
       />
     </van-popup>
