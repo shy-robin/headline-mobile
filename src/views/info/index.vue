@@ -28,7 +28,12 @@
       is-link
       @click="isShowEditGender = true"
     />
-    <van-cell title="生日" :value="userInfo.birthday" is-link />
+    <van-cell
+      title="生日"
+      :value="userInfo.birthday"
+      is-link
+      @click="isShowEditBirthday = true"
+    />
     <van-popup
       v-model="isShowEditName"
       position="bottom"
@@ -62,6 +67,17 @@
         @close="isShowEditGender = false"
       />
     </van-popup>
+    <van-popup
+      v-if="isShowEditBirthday"
+      v-model="isShowEditBirthday"
+      round
+      position="bottom"
+    >
+      <edit-birthday
+        v-model="userInfo.birthday"
+        @close="isShowEditBirthday = false"
+      />
+    </van-popup>
   </div>
 </template>
 
@@ -69,6 +85,7 @@
 import { getProfile } from '@/api/user'
 import EditName from './components/EditName.vue'
 import EditGender from './components/EditGender.vue'
+import EditBirthday from './components/EditBirthday.vue'
 
 export default {
   name: 'InfoIndex',
@@ -76,7 +93,8 @@ export default {
     return {
       userInfo: {},
       isShowEditName: false,
-      isShowEditGender: false
+      isShowEditGender: false,
+      isShowEditBirthday: false
     }
   },
   created() {
@@ -90,7 +108,8 @@ export default {
   },
   components: {
     EditName,
-    EditGender
+    EditGender,
+    EditBirthday
   }
 }
 </script>
