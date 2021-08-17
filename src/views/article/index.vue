@@ -97,6 +97,7 @@
       <reply-list
         v-if="isShowReplyPopup"
         :comment="replyItem"
+        :article-id="articleId"
         @closeReply="isShowReplyPopup=false"
       />
     </van-popup>

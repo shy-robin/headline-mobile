@@ -11,15 +11,33 @@
     />
     <comment-list
       :source-id="comment.com_id.toString()"
+      :comment-list="commentList"
       type="c"
     />
+    <van-button
+      class="bottom-button"
+      type="info"
+      round
+      @click="isShowCommentPopup = true"
+    >回复</van-button>
+    <van-popup
+      v-model="isShowCommentPopup"
+      position="bottom"
+    >
+      <publish-comment
+        :target="comment.com_id.toString()"
+        :article-id="articleId.toString()"
+        @publishSuccess="publishSuccess"
+        @addCommentCount="comment.reply_count++"
+      />
+    </van-popup>
   </div>
 </template>
 
 <script>
 import CommentItem from './CommentItem.vue'
-import { getComments } from '@/api/comment'
 import CommentList from './CommentList.vue'
+import PublishComment from './PublishComment.vue'
 
 export default {
   name: 'ReplyList',
@@ -27,25 +45,28 @@ export default {
     comment: {
       type: Object,
       required: true
+    },
+    articleId: {
+      type: [String, Number, Object],
+      required: true
     }
   },
-  created() {
-    this.loadComments()
+  data() {
+    return {
+      isShowCommentPopup: false,
+      commentList: []
+    }
   },
   methods: {
-    async loadComments() {
-      const { data } = await getComments({
-        type: 'c',
-        source: this.comment.com_id.toString(),
-        offset: null,
-        limit: 10
-      })
-      console.log(data)
+    publishSuccess(comment) {
+      this.commentList.unshift(comment)
+      this.isShowCommentPopup = false
     }
   },
   components: {
     CommentItem,
-    CommentList
+    CommentList,
+    PublishComment
   }
 }
 </script>
@@ -60,6 +81,10 @@ export default {
     ::v-deep .van-icon-cross {
       color: #000;
     }
+  }
+  .bottom-button {
+    width: 100%;
+    margin-bottom: 2px;
   }
 }
 </style>
