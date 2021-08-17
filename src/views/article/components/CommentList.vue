@@ -6,7 +6,7 @@
     finished-text="没有更多了"
     @load="onLoad"
   >
-    <van-cell title="评论" />
+    <van-cell title="全部评论" />
     <comment-item
       v-for="(comment, index) in commentList" :key="index"
       :comment="comment"
@@ -21,20 +21,24 @@ import CommentItem from './CommentItem.vue'
 export default {
   name: 'CommentList',
   props: {
-    articleId: {
+    sourceId: {
       type: [Number, String, Object], // 传入的数据可能是这三种类型
       required: true
     },
     commentList: {
       type: Array,
       default: () => []
+    },
+    type: {
+      type: String,
+      default: 'a'
     }
   },
   data() {
     return {
       loading: false,
       finished: false,
-      offset: 0,
+      offset: null,
       limit: 10
     }
   },
@@ -42,15 +46,17 @@ export default {
     async onLoad() {
       // 请求数据
       const { data } = await getComments({
-        type: 'a',
-        source: this.articleId,
-        offset: null,
+        type: this.type,
+        source: this.sourceId,
+        offset: this.offset,
         limit: this.limit
       })
-      const { results, total_count: totalCount } = data.data
+      const { results, total_count: totalCount, last_id: lastId } = data.data
       this.$emit('commentCount', totalCount)
 
       this.commentList.push(...results)
+
+      this.offset = lastId
 
       this.loading = false
 

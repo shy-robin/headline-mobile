@@ -29,6 +29,7 @@
           class="reply"
           size="mini"
           round
+          @click="onShowReply"
         >{{ comment.reply_count }}回复</van-button>
       </div>
     </div>
@@ -37,6 +38,7 @@
 
 <script>
 import { likeComment, cancelLikeComment } from '@/api/comment'
+import EventBus from '@/utils/bus'
 
 export default {
   name: 'CommentItem',
@@ -59,6 +61,9 @@ export default {
         this.comment.is_liking = true
         this.comment.like_count++
       }
+    },
+    onShowReply() {
+      EventBus.$emit('showReply', this.comment)
     }
   }
 }
@@ -71,6 +76,7 @@ export default {
   .left {
     .avatar {
       width: 36px;
+      height: 36px;
       margin-right: 10px;
     }
   }

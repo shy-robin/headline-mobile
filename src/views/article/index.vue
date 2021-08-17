@@ -57,7 +57,7 @@
           class="left"
           round
           size="mini"
-          @click="isShowPopup = true"
+          @click="isShowCommentPopup = true"
         >写评论</van-button>
         <div class="right">
           <van-icon
@@ -75,19 +75,28 @@
         </div>
       </div>
       <comment-list
-        :article-id="articleId"
+        :source-id="articleId"
         :comment-list="commentList"
         @commentCount="commentCount=$event"
       />
     </div>
     <van-popup
-      v-model="isShowPopup"
+      v-model="isShowCommentPopup"
       position="bottom"
     >
       <publish-comment
         :target="articleId"
         @publishSuccess="publishSuccess"
         @addCommentCount="commentCount++"
+      />
+    </van-popup>
+    <van-popup
+      v-model="isShowReplyPopup"
+      position="bottom"
+    >
+      <reply-list
+        :comment="replyItem"
+        @closeReply="isShowReplyPopup=false"
       />
     </van-popup>
   </div>
@@ -106,6 +115,8 @@ import { ImagePreview } from 'vant'
 import { follow, unfollow } from '@/api/user'
 import CommentList from './components/CommentList.vue'
 import PublishComment from './components/PublishComment.vue'
+import EventBus from '@/utils/bus'
+import ReplyList from './components/ReplyList.vue'
 
 export default {
   name: 'ArticleIndex',
@@ -114,13 +125,19 @@ export default {
       articleId: this.$route.params.articleId,
       article: {},
       isFollowLoading: false,
-      isShowPopup: false,
+      isShowCommentPopup: false,
       commentList: [],
-      commentCount: 0
+      commentCount: 0,
+      isShowReplyPopup: false,
+      replyItem: {}
     }
   },
   created() {
     this.loadArticleDetail()
+    EventBus.$on('showReply', comment => {
+      this.replyItem = comment
+      this.isShowReplyPopup = true
+    })
   },
   methods: {
     async loadArticleDetail() {
@@ -190,12 +207,13 @@ export default {
     },
     publishSuccess(comment) {
       this.commentList.unshift(comment)
-      this.isShowPopup = false
+      this.isShowCommentPopup = false
     }
   },
   components: {
     CommentList,
-    PublishComment
+    PublishComment,
+    ReplyList
   }
 }
 </script>
