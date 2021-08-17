@@ -16,23 +16,41 @@
         />
       </div>
     </van-cell>
-    <van-cell title="昵称" :value="userInfo.name" is-link />
+    <van-cell
+      title="昵称"
+      :value="userInfo.name"
+      is-link
+      @click="isShowEditName = true"
+    />
     <van-cell
       title="性别"
       :value="userInfo.gender === 1 ? '女' : '男'"
       is-link
     />
     <van-cell title="生日" :value="userInfo.birthday" is-link />
+    <van-popup
+      v-model="isShowEditName"
+      position="bottom"
+      :style="{ height: '100%' }"
+    >
+      <edit-name
+        v-model="userInfo.name"
+        @closeEdit="isShowEditName = false"
+      />
+    </van-popup>
   </div>
 </template>
 
 <script>
 import { getProfile } from '@/api/user'
+import EditName from './components/EditName.vue'
+
 export default {
   name: 'InfoIndex',
   data() {
     return {
-      userInfo: {}
+      userInfo: {},
+      isShowEditName: false
     }
   },
   created() {
@@ -43,6 +61,9 @@ export default {
       const { data } = await getProfile()
       this.userInfo = data.data
     }
+  },
+  components: {
+    EditName
   }
 }
 </script>
