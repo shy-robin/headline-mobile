@@ -48,7 +48,12 @@
         </van-grid>
       </template>
       <div class="notlogin" v-else>
-        <img src="./notlogin.png" @click="$router.push('/login')">
+        <img src="./notlogin.png" @click="$router.push({
+          name: 'login',
+          query: {
+            from: '/profile'
+          }
+        })">
         <span>登录 / 注册</span>
       </div>
     </van-cell-group>

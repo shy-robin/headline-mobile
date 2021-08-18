@@ -51,7 +51,7 @@ request.interceptors.response.use(
       // 1. 如果没有 token，直接跳转到登录页
       const userToken = store.state.UserMod.token
       if (!userToken || !userToken.token) {
-        return router.replace('/login')
+        return gotoLogin()
       }
       // 2. 如果有 token，尝试用 refresh_token 发请求
       try {
@@ -70,7 +70,7 @@ request.interceptors.response.use(
         return request(error.config)
       } catch (ex) {
         // 如果请求失败，直接跳转到登录页
-        return router.replace('/login')
+        return gotoLogin()
       }
     } else if (status === 403) {
       Toast.fail('操作没有权限')
@@ -82,5 +82,18 @@ request.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+// 跳转到登录页
+function gotoLogin() {
+  router.replace({
+    name: 'login',
+    query: {
+      // 数据名自定义
+      // router.currentRoute 相当于 this.$route
+      // 记录是从哪里跳转到登录页的，方便登录成功后返回
+      from: router.currentRoute.fullPath
+    }
+  })
+}
 
 export default request

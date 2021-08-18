@@ -114,8 +114,12 @@ export default {
         // 存储 token
         this.setToken(res.data.data)
         this.$toast.success('登录成功！')
+
         // 登录成功，跳转到上一页
-        this.$router.back() // 这种方式有 bug（待处理）
+        // this.$router.back() // 这种方式有 bug（待处理）
+
+        // 解决方式（当 query 中有 from 参数时则跳转到 from，否则跳转到首页）
+        this.$router.push(this.$route.query.from || '/')
       } catch (ex) {
         console.log(ex)
         this.$toast.fail('登录失败！')
