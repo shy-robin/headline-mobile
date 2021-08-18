@@ -6,7 +6,10 @@
       @click-left="$router.back()"
       :border="false"
     />
-    <van-cell-group>
+    <div
+      class="list"
+      ref="list"
+    >
       <van-cell
         class="message"
         v-for="(item, index) in messages" :key="index"
@@ -29,7 +32,7 @@
           {{ item.msg }}
         </div>
       </van-cell>
-    </van-cell-group>
+    </div>
     <van-cell class="toolbar">
       <div slot="title">
         <van-field
@@ -43,6 +46,7 @@
       <van-button
         type="primary"
         size="mini"
+        @click="onSend"
       >发送</van-button>
     </van-cell>
   </div>
@@ -56,28 +60,42 @@ export default {
   data() {
     return {
       message: '',
-      messages: [
-        {
-          msg: 'hello',
-          timestamp: dayjs(1629273492469).format('YYYY-MM-DD HH:mm'),
-          id: 0
-        },
-        {
-          msg: '你好',
-          timestamp: dayjs(1629273493469).format('YYYY-MM-DD HH:mm'),
-          id: 1
-        },
-        {
-          msg: '吃了吗？',
-          timestamp: dayjs(1629273494469).format('YYYY-MM-DD HH:mm'),
-          id: 0
-        },
-        {
-          msg: '吃了',
-          timestamp: dayjs(1629273495469).format('YYYY-MM-DD HH:mm'),
-          id: 1
-        }
-      ]
+      messages: []
+    }
+  },
+  methods: {
+    async onSend() {
+      this.messages.push({
+        msg: this.message,
+        timestamp: dayjs().format('YYYY-MM-DD HH:mm'),
+        id: 0
+      })
+
+      // 延时一段时间
+      await this.delay(500)
+
+      this.messages.push({
+        msg: '接口出错，无法使用该功能！',
+        timestamp: dayjs().format('YYYY-MM-DD HH:mm'),
+        id: 1
+      })
+
+      this.scrollToBottom()
+      this.message = ''
+    },
+    scrollToBottom() {
+      // 数据更新到视图层触发
+      this.$nextTick(() => {
+        // 使列表一直处于底部
+        this.$refs.list.scrollTop = this.$refs.list.scrollHeight
+      })
+    },
+    delay(time) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve()
+        }, time)
+      })
     }
   }
 }
@@ -85,6 +103,14 @@ export default {
 
 <style lang="scss" scoped>
 .robot-container {
+  .list {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 46px;
+    bottom: 64px;
+    overflow-y: auto;
+  }
   .message {
     .van-cell__title {
       flex: unset;
