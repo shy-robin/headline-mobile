@@ -11,6 +11,7 @@
       ref="file"
       accept="image/*"
       hidden
+      @change="onFileChange"
     >
     <van-cell
       title="头像"
@@ -88,6 +89,17 @@
         @close="isShowEditBirthday = false"
       />
     </van-popup>
+    <van-popup
+      v-if="isShowEditImage"
+      v-model="isShowEditImage"
+      position="bottom"
+      style="height: 100%;"
+    >
+      <edit-image
+        :file="chosenImage"
+        @close="isShowEditImage = false"
+      />
+    </van-popup>
   </div>
 </template>
 
@@ -96,6 +108,7 @@ import { getProfile } from '@/api/user'
 import EditName from './components/EditName.vue'
 import EditGender from './components/EditGender.vue'
 import EditBirthday from './components/EditBirthday.vue'
+import EditImage from './components/EditImage.vue'
 
 export default {
   name: 'InfoIndex',
@@ -104,7 +117,9 @@ export default {
       userInfo: {},
       isShowEditName: false,
       isShowEditGender: false,
-      isShowEditBirthday: false
+      isShowEditBirthday: false,
+      isShowEditImage: false,
+      chosenImage: null
     }
   },
   created() {
@@ -114,12 +129,20 @@ export default {
     async loadProfile() {
       const { data } = await getProfile()
       this.userInfo = data.data
+    },
+    onFileChange() {
+      this.chosenImage = this.$refs.file.files[0]
+      this.isShowEditImage = true
+
+      // 选择同一张图片也触发 onFileChange
+      this.$refs.file.value = ''
     }
   },
   components: {
     EditName,
     EditGender,
-    EditBirthday
+    EditBirthday,
+    EditImage
   }
 }
 </script>

@@ -94,6 +94,15 @@ const editProfile = data => {
   })
 }
 
+// 编辑用户图像
+const editImage = data => {
+  return request({
+    method: 'PATCH',
+    url: '/app/v1_0/user/photo',
+    data
+  })
+}
+
 export {
   userLogin,
   getSmsCode,
@@ -105,5 +114,6 @@ export {
   follow,
   unfollow,
   getProfile,
-  editProfile
+  editProfile,
+  editImage
 }
