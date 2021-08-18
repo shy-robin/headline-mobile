@@ -1,5 +1,8 @@
 <template>
-  <div class="article-list-container">
+  <div
+    class="article-list-container"
+    ref="article-list"
+  >
     <van-pull-refresh
       v-model="isRefreshing"
       :success-text="refreshSuccessText"
@@ -30,6 +33,7 @@
 <script>
 import { getArticles } from '@/api/article'
 import ArticleItem from '@/components/article-item/'
+import debounce from '@/utils/debounce'
 
 export default {
   name: 'ArticleList',
@@ -49,7 +53,8 @@ export default {
       finished: false,
       timestamp: null,
       isRefreshing: false,
-      refreshSuccessText: ''
+      refreshSuccessText: '',
+      scrollTop: 0
     }
   },
   methods: {
@@ -87,10 +92,30 @@ export default {
       // 4. 设置成功文本
       this.refreshSuccessText = `更新了${data.results.length}条数据`
     }
+  },
+  mounted() {
+    const list = this.$refs['article-list']
+    // 使用防抖函数降低函数调用频率
+    list.onscroll = debounce(() => {
+      // 记录列表此时的位置
+      this.scrollTop = list.scrollTop
+    }, 50)
+  },
+  // 缓存组件被激活时调用
+  activated() {
+    // 将列表恢复到记录的位置
+    this.$refs['article-list'].scrollTop = this.scrollTop
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.article-list-container {
+  position: fixed;
+  left: 0; // 注意要给list设置大小才能监听到onscroll事件
+  right: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+}
 </style>

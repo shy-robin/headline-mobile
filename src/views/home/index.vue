@@ -98,7 +98,7 @@ export default {
     right: 0;
     top: 93px;
     bottom: 50px;
-    overflow: auto;
+    overflow-y: auto;
   }
   .placeholder {
     flex-shrink: 0;
