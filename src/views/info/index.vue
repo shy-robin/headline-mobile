@@ -93,10 +93,11 @@
       v-if="isShowEditImage"
       v-model="isShowEditImage"
       position="bottom"
-      style="height: 100%;"
+      style="height: 100%;background-color:#000"
     >
       <edit-image
         :file="chosenImage"
+        @newImage="userInfo.photo = $event"
         @close="isShowEditImage = false"
       />
     </van-popup>
