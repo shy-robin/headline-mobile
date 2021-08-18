@@ -73,7 +73,7 @@
     </van-grid>
     <van-cell-group class="profile-list">
       <van-cell title="消息通知" is-link />
-      <van-cell title="小智同学" is-link />
+      <van-cell title="小智同学" is-link to="/robot" />
     </van-cell-group>
     <van-cell
       v-if="token"
