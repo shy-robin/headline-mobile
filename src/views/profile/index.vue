@@ -109,12 +109,14 @@ export default {
       })
       // 确定退出，清除 token
       this.setToken(null)
+      // 用户退出登录，将 LayoutIndex 从缓存组中删除，不让其缓存
+      this.cachePages.removeCachePage('LayoutIndex')
     },
     async loadCurrentUser() {
       const res = await getCurrentUser()
       this.userInfo = res.data.data
     },
-    ...mapMutations('UserMod', ['setToken'])
+    ...mapMutations('UserMod', ['setToken', 'removeCachePage'])
   }
 }
 </script>

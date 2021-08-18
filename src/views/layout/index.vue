@@ -15,12 +15,21 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'LayoutIndex',
   data() {
     return {
       tabActive: 0
     }
+  },
+  mounted() {
+    // 刚登录的用户加载完 LayoutIndex 组件后，立即将其加入缓存组
+    this.addCachePage('LayoutIndex')
+  },
+  methods: {
+    ...mapMutations('UserMod', ['addCachePage'])
   }
 }
 </script>
