@@ -6,7 +6,17 @@
       @click-left="$router.back()"
       :border="false"
     />
-    <van-cell title="头像" is-link>
+    <input
+      type="file"
+      ref="file"
+      accept="image/*"
+      hidden
+    >
+    <van-cell
+      title="头像"
+      is-link
+      @click="$refs.file.click()"
+    >
       <div>
         <van-image
           class="avatar"
